@@ -14,7 +14,7 @@ function getAndPrintHTMLChunks(){
         });
     });
 }
-getAndPrintHTMLChunks()
+// getAndPrintHTMLChunks()
 
 function getAndPrintHTML(){
     let str = "";
@@ -38,7 +38,7 @@ function getAndPrintHTML(){
     });
 
 }
-getAndPrintHTML()
+// getAndPrintHTML()
 
 function getAndPrintHTML2 (options){
     https.get(options, function(response){
@@ -56,12 +56,12 @@ let requestOptions = {
 };
 
 
-getAndPrintHTML2(requestOptions)
+// getAndPrintHTML2(requestOptions)
 
 function getHTML(options, callbak){
     https.get(options, function(response){
         response.on("data", function(data){
-            printHTML(data.toString())
+            callbak(data.toString())
         })
     })
 
@@ -77,3 +77,12 @@ let requestOptions2 = {
 }
 
 getHTML(requestOptions2, printHTML)
+
+
+let getHTMLFunction = require('./http-functions');
+
+var requestOptions3 = {
+    host: 'sytantris.github.io',
+  path: '/http-examples/step5.html'
+}
+getHTMLFunction(requestOptions3, printHTML, https)
