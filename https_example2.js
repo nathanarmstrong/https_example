@@ -1,15 +1,4 @@
-// while https is built-in to Node, it is a module, so it must be required
-
 var https = require('https');                               
-
-// the host can be thought of as the domain name you want to read from,
-// and the path is the resource - '/' is the root path, but if you wanted to read a
-// particular resource (like '/login/index.html'), that would be defined in the path
-
-// var requestOptions = {
-//   host: 'example.com',
-//   path: '/'
-// };
 
 function getAndPrintHTMLChunks(){
 
@@ -17,40 +6,54 @@ function getAndPrintHTMLChunks(){
         host: 'sytantris.github.io',
         path: '/http-examples/step1.html'
     };
-
-    console.log(this)
     https.get(requestOptions, function(response){
         response.setEncoding('utf8');
 
         response.on('data', function (data) {
-            console.log('Chunk Received. ', data);
+            console.log( data);
         });
     });
 }
 
-getAndPrintHTMLChunks()
+function getAndPrintHTML(){
+    let str = "";
+    const requestOptions = {
+        host: 'sytantris.github.io',
+        path: '/http-examples/step2.html'
+    };
+    https.get(requestOptions, function(response){
+        response.setEncoding('utf8');
 
-// notice that https.get takes a callback with one parameter -
-// response, which is a Stream that represents the HTTP response
+        response.on('data', function(data){
+            let test = data.split(/\n(.+)/)
+            for(i = 15; i < 28; i++){
+                str += test[i];
+            }
+        });
 
-// https.get(requestOptions, function (response) {
+        response.on('end', function() {
+            console.log(str)
+        })
+    });
 
-  // set encoding of received data to UTF-8
+}
 
-//   response.setEncoding('utf8');
+function getAndPrintHTML2 (options){
+    https.get(options, function(response){
+        response.on("data", function(data){
+            console.log(data.toString())
+        })
+    });
 
-  // the callback is invoked when a `data` chunk is received
 
-//   response.on('data', function (data) {
-    // console.log('Chunk Received. Length:', data.length);
-//   });
+}
 
-  // the callback is invoked when all of the data has been received
-  // (the `end` of the stream)
+let requestOptions = {
+    host: 'sytantris.github.io',
+    path: '/http-examples/step3.html'
+};
 
-//   response.on('end', function() {
-    // console.log('Response stream complete.');
-//   });
 
-// })
-
+// getAndPrintHTMLChunks()
+// getAndPrintHTML()
+getAndPrintHTML2(requestOptions)
