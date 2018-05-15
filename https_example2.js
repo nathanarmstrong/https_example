@@ -14,6 +14,7 @@ function getAndPrintHTMLChunks(){
         });
     });
 }
+getAndPrintHTMLChunks()
 
 function getAndPrintHTML(){
     let str = "";
@@ -37,6 +38,7 @@ function getAndPrintHTML(){
     });
 
 }
+getAndPrintHTML()
 
 function getAndPrintHTML2 (options){
     https.get(options, function(response){
@@ -54,6 +56,24 @@ let requestOptions = {
 };
 
 
-// getAndPrintHTMLChunks()
-// getAndPrintHTML()
 getAndPrintHTML2(requestOptions)
+
+function getHTML(options, callbak){
+    https.get(options, function(response){
+        response.on("data", function(data){
+            printHTML(data.toString())
+        })
+    })
+
+}
+
+function printHTML (html){
+    console.log(html)
+}
+
+let requestOptions2 = {
+    host: 'sytantris.github.io',
+    path: '/http-examples/step4.html'
+}
+
+getHTML(requestOptions2, printHTML)
